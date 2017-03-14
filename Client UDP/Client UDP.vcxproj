@@ -146,17 +146,29 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aircraft.h" />
+    <ClInclude Include="Altitude.h" />
+    <ClInclude Include="Latitude.h" />
+    <ClInclude Include="Longitude.h" />
     <ClInclude Include="NetworkData.h" />
     <ClInclude Include="ClientNetwork.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Presure.h" />
     <ClInclude Include="Sensor.h" />
+    <ClInclude Include="Speed.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aircraft.cpp" />
+    <ClCompile Include="Altitude.cpp" />
     <ClCompile Include="Client UDP.cpp" />
     <ClCompile Include="ClientNetwork.cpp" />
+    <ClCompile Include="Latitude.cpp" />
+    <ClCompile Include="Longitude.cpp" />
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Presure.cpp" />
     <ClCompile Include="Sensor.cpp" />
+    <ClCompile Include="Speed.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,24 +1,23 @@
-/*
-Simple udp client
-*/
-
 #include <iostream>
-#include "ClientNetwork.h"
+#include "Aircraft.h"
+#include <random>
 
+using namespace std;
 
 int main(void)
 {
-	std::string name;
-	std::string reg;
+	cout << "Enter a 6 digit registration number:"<<endl;
+	char reg[7] ;
+	cin >> reg;
+	reg[6] = '\0';
+	Aircraft aircraft = Aircraft(reg,1,rand()%10000 - 5000, rand() % 10000 - 5000,500,0);
 
-	std::cin >> name >> reg;
+	while (1) {
+		aircraft.update();
+		Sleep(1000);
+	}
 
 
-
-	ClientNetwork server(name,reg);
-
-	server.start();
-	
 
 	return 0;
 }

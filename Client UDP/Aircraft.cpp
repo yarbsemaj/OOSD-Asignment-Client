@@ -1,30 +1,29 @@
 #include "Aircraft.h"
+#include <iostream>
 
-
-
-Aircraft::Aircraft()
+Aircraft::Aircraft(char registration[7], float presure, float longitude, float latitude, float speed, float altitude)
 {
-	presure = Sensor();
-	longitude = Sensor();
-	latitude = Sensor();
-	speed = Sensor();
-	altitude = Sensor();
+	memcpy(this->registration, registration, 7);
+	this->presure = Presure(presure);
+	this->longitude = Longitude(longitude);
+	this->latitude = Latitude(latitude);
+	this->speed = Speed(speed);
+	this->altitude = Altitude(altitude);
+	observer = Observer();
 }
-
-
 
 
 Aircraft::~Aircraft()
 {
 }
 
-void Aircraft::update(std::string type, std::string registration, float presure, float longitude, float latitude, float speed, float altitude)
+void Aircraft::update()
 {
-	this->type = type;
-	this->registration = registration;
-	this->presure.setValue(presure);
-	this->longitude.setValue(longitude);
-	this->latitude.setValue(latitude);
-	this->speed.setValue(speed);
-	this->altitude.setValue(altitude);
+	//std::cout << this->registration;
+	this->presure.update();
+	this->longitude.update();
+	this->latitude.update();
+	this->speed.update();
+	this->altitude.update();
+	observer.update(*this);
 }

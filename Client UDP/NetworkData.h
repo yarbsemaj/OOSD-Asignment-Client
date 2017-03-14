@@ -17,8 +17,7 @@ struct Packet {
 	float latitude;
 	float altitude;
 	float presure;
-	std::string name;
-	std::string regNum;
+	char regNum [7];
 
 
 

@@ -2,10 +2,11 @@
 
 
 
-Sensor::Sensor()
-{
-}
 
+Sensor::Sensor(float value)
+{
+	this->value = value;
+}
 
 Sensor::~Sensor()
 {

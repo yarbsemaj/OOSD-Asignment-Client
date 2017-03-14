@@ -2,12 +2,13 @@
 class Sensor
 {
 public:
-	Sensor();
+	Sensor() {}
+	Sensor(float value);
 	~Sensor();
 	float getValue();
 	void setValue(float value);
-
-private:
+	virtual void update() = 0 {};
+protected:
 	float value;
 };
 

@@ -1,33 +1,17 @@
 #include "ClientNetwork.h"
-#include<stdio.h>
-#include<winsock2.h>
-#include <iostream>
 #include "NetworkData.h"
+#include "Aircraft.h"
+#include<iostream>
 
 
-#pragma comment(lib,"ws2_32.lib") //Winsock Library
-
-#define SERVER "127.0.0.1"  //ip address of udp server
-#define BUFLEN 512  //Max length of buffer
-#define PORT 8888   //The port on which to listen for incoming data
-
-
-ClientNetwork::ClientNetwork(std:: string name, std::string reg)
+ClientNetwork::ClientNetwork()
 {
-	this->name = name;
-	this->reg = reg;
-
-	std::cout << name<< reg;
 }
 
 
 void ClientNetwork::start()
 {
-	struct sockaddr_in si_other;
-	int s, slen = sizeof(si_other);
-	char buf[BUFLEN];
-	char message[BUFLEN];
-	WSADATA wsa;
+	s, slen = sizeof(si_other);
 
 	//Initialise winsock
 	printf("\nInitialising Winsock...");
@@ -52,20 +36,26 @@ void ClientNetwork::start()
 	si_other.sin_addr.S_un.S_addr = inet_addr(SERVER);
 
 	//start communication
-	while (1)
-	{
+
+
+}
+
+void ClientNetwork::update(Aircraft & aircraft)
+{
+		Aircraft aircraftObj = aircraft;
 		const unsigned int packet_size = sizeof(Packet);
 		char packet_data[packet_size];
 		Packet packet;
-		packet.speed = 22.2;
-		packet.longitude = 123455;
-		packet.latitude = 2334543;
+		packet.speed = aircraftObj.speed.getValue();
+		packet.longitude = aircraftObj.longitude.getValue();
+		packet.latitude = aircraftObj.latitude.getValue();
 		packet.packet_type = DATA_EVENT;
-		packet.regNum = reg;
-		packet.name = name;
-		packet.altitude = 10;
-		packet.presure = 10;
+		memmove(packet.regNum,aircraftObj.registration, sizeof(aircraftObj.registration));
+		packet.altitude = aircraftObj.altitude.getValue();
+		packet.presure = aircraftObj.presure.getValue();
 		packet.serialize(packet_data);
+
+		//std::cout << packet.regNum;
 
 		//send the message
 		if (sendto(s, packet_data, packet_size, 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
@@ -74,25 +64,13 @@ void ClientNetwork::start()
 			exit(EXIT_FAILURE);
 		}
 
-		//receive a reply and print it
-		//clear the buffer by filling null, it might have previously received data
-		memset(buf, '\0', BUFLEN);
-		//try to receive some data, this is a blocking call
-		if (recvfrom(s, buf, BUFLEN, 0, (struct sockaddr *) &si_other, &slen) == SOCKET_ERROR)
-		{
-			printf("recvfrom() failed with error code : %d", WSAGetLastError());
-			exit(EXIT_FAILURE);
-		}
-
-		puts(buf);
-		Sleep(1000);
-	}
-
-	closesocket(s);
-	WSACleanup();
 }
+
+
 
 
 ClientNetwork::~ClientNetwork()
 {
+	//closesocket(s);
+	//WSACleanup();
 }
