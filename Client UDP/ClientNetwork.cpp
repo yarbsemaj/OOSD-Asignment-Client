@@ -1,11 +1,14 @@
+#pragma once
 #include "ClientNetwork.h"
 #include "NetworkData.h"
 #include "Aircraft.h"
 #include<iostream>
+#include "Observer.h"
 
 
 ClientNetwork::ClientNetwork()
 {
+	start();
 }
 
 
@@ -14,7 +17,6 @@ void ClientNetwork::start()
 	s, slen = sizeof(si_other);
 
 	//Initialise winsock
-	printf("\nInitialising Winsock...");
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 	{
 		printf("Failed. Error Code : %d", WSAGetLastError());
@@ -34,14 +36,12 @@ void ClientNetwork::start()
 	si_other.sin_family = AF_INET;
 	si_other.sin_port = htons(PORT);
 	si_other.sin_addr.S_un.S_addr = inet_addr(SERVER);
-
-	//start communication
-
-
 }
 
 void ClientNetwork::update(Aircraft & aircraft)
 {
+
+	//creates the packet
 		Aircraft aircraftObj = aircraft;
 		const unsigned int packet_size = sizeof(Packet);
 		char packet_data[packet_size];
@@ -53,9 +53,10 @@ void ClientNetwork::update(Aircraft & aircraft)
 		memmove(packet.regNum,aircraftObj.registration, sizeof(aircraftObj.registration));
 		packet.altitude = aircraftObj.altitude.getValue();
 		packet.presure = aircraftObj.presure.getValue();
+		//serialise the packet
 		packet.serialize(packet_data);
 
-		//std::cout << packet.regNum;
+		std::cout << "Data sent for aircraft " << packet.regNum << std::endl;
 
 		//send the message
 		if (sendto(s, packet_data, packet_size, 0, (struct sockaddr *) &si_other, slen) == SOCKET_ERROR)
@@ -71,6 +72,4 @@ void ClientNetwork::update(Aircraft & aircraft)
 
 ClientNetwork::~ClientNetwork()
 {
-	//closesocket(s);
-	//WSACleanup();
 }

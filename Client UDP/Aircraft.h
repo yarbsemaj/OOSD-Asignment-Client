@@ -1,5 +1,4 @@
 #pragma once
-#include<string>
 #include"Sensor.h"
 #include "Observer.h"
 #include "Longitude.h"
@@ -7,6 +6,7 @@
 #include "Speed.h"
 #include "Altitude.h"
 #include "Presure.h"
+#include <vector>
 class Aircraft
 {
 public:
@@ -21,7 +21,7 @@ public:
 	Latitude latitude;
 	Speed speed;
 	Altitude altitude;
-	Observer observer;
+	std::vector<Observer*> observers;
 
 };
 

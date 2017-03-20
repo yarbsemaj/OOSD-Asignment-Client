@@ -3,6 +3,8 @@
 #include<winsock2.h>
 #include <iostream>
 #include <string>
+#include "Observer.h"
+
 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
 
@@ -10,13 +12,15 @@
 #define BUFLEN 512  //Max length of buffer
 #define PORT 8888   //The port on which to listen for incoming data
 class Aircraft;
-class ClientNetwork
+class ClientNetwork :
+	public Observer
 {
 public:
 	~ClientNetwork();
 	ClientNetwork();
 	void start();
 	void update(Aircraft  & aircraft);
+	
 
 private:
 	struct sockaddr_in si_other;

@@ -2,7 +2,7 @@
 
 
 
-
+//sensor construct, this is called by all sensors on creation
 Sensor::Sensor(float value)
 {
 	this->value = value;

@@ -1,13 +1,14 @@
 #pragma once
 #include <vector>
-#include "ClientNetwork.h"
+//forward declaration of aircraft
+//fixes circular includes
+class Aircraft;
 
 class Observer
 {
 public:
 	Observer();
 	~Observer();
-	void update(Aircraft  aircraft);
-	ClientNetwork observers;
+	virtual void update(Aircraft  & aircraft) = 0 {};
 };
 
